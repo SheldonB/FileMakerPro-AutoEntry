@@ -1,14 +1,6 @@
-import org.apache.poi.hssf.util.CellReference;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
+import java.awt.*;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.util.Iterator;
-
+import java.io.IOException;
 
 /*
 The following is an implementation of a bot, to ease the putting of
@@ -39,115 +31,69 @@ public class Main {
         //frame.pack();
         //frame.setVisible(true);
 
-        Chapter currentChapter = new Chapter("Trimble Co.", 5);
-        readExcelFile(currentChapter);
-        FFARobot newRobot = new FFARobot(currentChapter);
-        newRobot.start();
-        //newRobot.getXYCord();
-        //currentChapter.printChapter();
+        boolean success = run(new Chapter("Ballard Memorial", 5));
+        if(success) {
+            System.out.println("Successful Run");
+        } else {
+            System.out.println("Run did not finish");
+        }
     }
 
     /*
-    Method reads an Excel file into the database. Iterates through the excel spreadsheet
-    and stores each in memory. The FFARobot class then takes and puts each one through
-    keystrokes into the computer.
-
-    This could be made a lot cleaner and modular, will work on that when I have the chance too.
-
-    A feature needs to be added so that the first two lines of sheet 3 are not read and it does not read the entire file,
-    only a certain part of it. Currently the entire sheet is being read.
+    Current refactor of the run loop. Adding error handling and better OOP support
     */
-    private static void readExcelFile(Chapter currentChapter) throws Exception {
-        InputStream file = new FileInputStream(
-                new File("C:\\Users\\sheldon.burke@education.ky.gov\\Documents\\Registration Copy\\Week 5\\Trimble Co..xlsx"));
-        XSSFWorkbook workbook = new XSSFWorkbook(file);
-        XSSFSheet sheet = workbook.getSheetAt(2);
-        XSSFRow row;
-        XSSFCell cell;
-
-        Iterator rows = sheet.rowIterator();
-        while(rows.hasNext()) {
-            row = (XSSFRow)rows.next();
-            if(row.getRowNum() == 0 || row.getRowNum() == 1) {
-                continue;
-            }
-            else if(row.getRowNum() > 41) {
-                break;
-            }
-            Iterator cells = row.cellIterator();
-            Student tempStudent = new Student();
-
-            while(cells.hasNext()) {
-                cell = (XSSFCell) cells.next();
-                if(cell.getColumnIndex() == 1) {
-                    String[] splitNames = cell.getStringCellValue().split(" ");
-                    if(splitNames.length == 3) {
-                        tempStudent.setFirstName(splitNames[0] + " " + splitNames[1]);
-                        tempStudent.setLastName(splitNames[2]);
-
-                    }
-                     else if(splitNames.length == 2) {
-                        tempStudent.setFirstName(splitNames[0]);
-                        tempStudent.setLastName(splitNames[1]);
-
-                    }
-                }
-                else if(cell.getColumnIndex() == 2) {
-                   tempStudent.setGender(cell.getStringCellValue());
-                }
-                else if(cell.getColumnIndex() == 3) {
-                    for(String comm : committees) {
-                        if(cell.getStringCellValue().equals(comm)) {
-                            tempStudent.setIsCommittee(true);
-                        }
-                    }
-                    tempStudent.setOffice(cell.getStringCellValue());
-                }
-                else if(cell.getColumnIndex() == 4 || cell.getColumnIndex() == 5
-                        || cell.getColumnIndex() == 6 || cell.getColumnIndex() == 7) {
-                    if(cell.getCellStyle().getFont().getBold()) {
-                        if(cell.getStringCellValue().equals("Communication Skills")
-                           && cell.getCellStyle().getFont().getUnderline() == 1) {
-                            tempStudent.setSpecialInterestAM("Communication Skills B");
-                        } else if(cell.getStringCellValue().equals("Communication Skills")) {
-                             tempStudent.setSpecialInterestAM("Communication Skills A");
-                        } else {
-                           tempStudent.setSpecialInterestAM(cell.getStringCellValue());
-                        }
-                    } else if(cell.getCellStyle().getFont().getItalic()) {
-                        if(cell.getStringCellValue().equals("Communication Skills")
-                                && cell.getCellStyle().getFont().getUnderline() == 1) {
-                           tempStudent.setSpecialInterestPM("Communication Skills B");
-
-                        } else if(cell.getStringCellValue().equals("Communication Skills")) {
-                            tempStudent.setSpecialInterestPM("Communication Skills A");
-
-                        } else {
-                            tempStudent.setSpecialInterestPM(cell.getStringCellValue());
-                        }
-                    }
-                }
-            }
-            tempStudent.setGroupNum((int)(Math.random() * 8) + 1);
-            currentChapter.addStudent(tempStudent);
+    private static boolean run(Chapter chapter) {
+        FFAExcelFile readFile;
+        try {
+            readFile = new FFAExcelFile(new File("C:\\Users\\sheldon.burke@education.ky.gov\\Documents\\Registration Copy\\Week 5\\Ballard Memorial.xlsx"), chapter);
+        } catch (IOException e) {
+            return false;
         }
 
-        /*
-        sheet = workbook.getSheetAt(0);
-        for(int i = 8; i < 12; i++) {
-            CellReference cellReference = new CellReference("D" + i);
-            row = sheet.getRow(cellReference.getRow());
-            cell = row.getCell(cellReference.getCol());
-            //System.out.println(cell.getStringCellValue());
-            if(cell.getStringCellValue().equals("")) {
+        while(readFile.hasNextRow()) {
+            readFile.setRow();
+            if(!readFile.isValidRow()) {
                 continue;
             }
-            else {
-                currentChapter.addStudent(new Student());
+            readFile.setCellIterator();
+            while(readFile.hasNextCell()) {
+                readFile.setCell();
+                switch (readFile.getCellColumn()) {
+                    case 1:
+                        readFile.setName();
+                        break;
+                    case 2:
+                        readFile.setGender();
+                        break;
+                    case 3:
+                        readFile.setOffice();
+                        break;
+                    case 4:
+                    case 5:
+                    case 6:
+                    case 7:
+                        readFile.setSpecialInterest();
+                        break;
+                }
             }
+            readFile.setGroupNumber();
+            readFile.addStudent();
         }
-        */
+        try {
+            startRobot(chapter);
+        } catch (AWTException e) {
+            return false;
+        }
+        readFile.closeInputStream();
+        return true;
+    }
 
-        file.close();
+    private static void startRobot(Chapter currentChapter) throws AWTException {
+        FFARobot ffaRobot = new FFARobot(currentChapter);
+        try {
+            ffaRobot.start();
+        } catch (Exception e) {
+            System.err.println(e);
+        }
     }
 }
