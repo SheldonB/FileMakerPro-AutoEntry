@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -10,6 +11,7 @@ Author: Sheldon Burks
 Started: 6/22/13
 */
 public class Main {
+    private static JFrame frame;
 
     public static final String[] committees = {
                                                 "Leadership Committee",
@@ -25,27 +27,29 @@ public class Main {
                                               };
 
     public static void main(String[] args) throws Exception {
-        //JFrame frame = new JFrame();
-        //frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        //frame.getContentPane().add(new FFAMainPanel());
-        //frame.pack();
-        //frame.setVisible(true);
-
+        frame = new JFrame("KY FFA LTC FileMaker Pro Bot");
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.getContentPane().add(new FFAMainPanel());
+        frame.setResizable(false);
+        frame.pack();
+        frame.setVisible(true);
+        /*
         boolean success = run(new Chapter("Ballard Memorial", 5));
         if(success) {
             System.out.println("Successful Run");
         } else {
             System.out.println("Run did not finish");
         }
+        */
     }
 
     /*
     Current refactor of the run loop. Adding error handling and better OOP support
     */
-    private static boolean run(Chapter chapter) {
+    public static boolean run(Chapter chapter, File excelDoc) {
         FFAExcelFile readFile;
         try {
-            readFile = new FFAExcelFile(new File("C:\\Users\\sheldon.burke@education.ky.gov\\Documents\\Registration Copy\\Week 5\\Ballard Memorial.xlsx"), chapter);
+            readFile = new FFAExcelFile(excelDoc, chapter);
         } catch (IOException e) {
             return false;
         }
@@ -79,6 +83,7 @@ public class Main {
             readFile.setGroupNumber();
             readFile.addStudent();
         }
+
         try {
             startRobot(chapter);
         } catch (AWTException e) {
@@ -96,4 +101,9 @@ public class Main {
             System.err.println(e);
         }
     }
+
+    public static void frameVisible(boolean visible) {
+        frame.setVisible(visible);
+    }
+
 }
