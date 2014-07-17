@@ -11,7 +11,6 @@ import java.util.Iterator;
 
 
 public class FFAExcelFile {
-    private XSSFWorkbook workbook;
     private XSSFSheet sheet;
     private XSSFRow row;
     private XSSFCell cell;
@@ -23,10 +22,9 @@ public class FFAExcelFile {
 
     public FFAExcelFile(File excelFile, Chapter currentChapter) throws IOException {
         this.file = new FileInputStream(excelFile);
-        this.workbook = new XSSFWorkbook(this.file);
-        this.sheet = this.workbook.getSheetAt(2);
+        XSSFWorkbook workbook = new XSSFWorkbook(this.file);
+        this.sheet = workbook.getSheetAt(2);
         this.rows = sheet.rowIterator();
-        //this.cells = this.row.cellIterator();
         this.currentChapter = currentChapter;
         this.student = new Student();
     }
@@ -52,6 +50,7 @@ public class FFAExcelFile {
     public void setCellIterator() {
         this.cells = this.row.cellIterator();
     }
+
     public boolean hasNextCell() {
         return this.cells.hasNext();
     }
