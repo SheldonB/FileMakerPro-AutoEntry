@@ -23,7 +23,7 @@ public class FFAMainPanel extends JPanel {
         this.startButton = new JButton("Start");
         this.chooserPanel = new FileChooserPanel();
 
-        this.add(new JLabel("org.kyffa.models.Chapter Name: "));
+        this.add(new JLabel("Chapter Name: "));
         this.add(this.chapterNameArea);
         this.add(new JLabel("Week: "));
         this.add(this.weekNumberArea);

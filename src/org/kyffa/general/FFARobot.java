@@ -18,39 +18,19 @@ public class FFARobot {
     private Chapter chapter;
     private Robot ffaRobot;
 
-    public FFARobot(Chapter chapter) throws AWTException {
+    public FFARobot(Chapter chapter) {
         this.chapter = chapter;
-        this.ffaRobot = new Robot();
+
+        try {
+            this.ffaRobot = new Robot();
+        } catch(AWTException e) {
+            System.out.println("Could Not Initialize Robot");
+        }
     }
 
-    //This method starts the Robot process.
-    //There is a cycle throughout the ArrayList<org.kyffa.models.Student>
-    //that will actually put every member in the computer
-    public void start() throws Exception {
-       for(int i = 0; i < this.chapter.getSize(); i++){
-           if(this.chapter.getStudents().get(i).getFirstName() == null) {
-               break;
-            }
-            this.newRecord();
-            this.ffaRobot.delay(1000);
-            this.setWeek(this.chapter.getWeek());
-            this.setChapter();
-            if(this.chapter.getStudents().get(i).getIsCommittee()) {
-                this.setCommittee(this.chapter.getStudents().get(i).getOffice());
-            }
-            else {
-                this.setOffice(this.chapter.getStudents().get(i).getOffice());
-            }
-            this.setFirstName(this.chapter.getStudents().get(i).getFirstName());
-            this.setLastName(this.chapter.getStudents().get(i).getLastName());
-            this.setGender(this.chapter.getStudents().get(i).getGender());
-            this.setSpecialInterestClasses(this.chapter.getStudents().get(i).getSpecialInterestAM(),
-                                           this.chapter.getStudents().get(i).getSpecialInterestPM());
-            this.setGroupNum(Integer.toString(this.chapter.getStudents().get(i).getGroupNum()));
-            this.ffaRobot.delay(1000);
-       }
+    public void delayOneSec() {
+        this.ffaRobot.delay(1000);
     }
-
     /*
     This method clicks on the New Record Button in FileMaker Pro.
     */
@@ -64,19 +44,19 @@ public class FFARobot {
     object and uses the Java robot class to select the proper
     week within FileMaker Pro.
     */
-    public void setWeek(int week) throws Exception {
+    public void setWeek() {
         this.ffaRobot.mouseMove(176, 153);
         this.pressAndRelease();
-        this.typeCharacter(Integer.toString(week));
+        this.typeCharacter(Integer.toString(chapter.getWeek()));
     }
 
-    public void setChapter() throws Exception {
+    public void setChapter() {
         this.ffaRobot.mouseMove(308, 176);
         this.pressAndRelease();
         this.typeString(this.chapter.getChapterName());
     }
 
-    public void setOffice(String office) throws Exception {
+    public void setOffice(String office) {
         this.ffaRobot.mouseMove(293, 196);
         this.pressAndRelease();
         this.pressAndRelease();
@@ -89,20 +69,20 @@ public class FFARobot {
         this.typeString(office);
     }
 
-    public void setFirstName(String firstName) throws Exception {
+    public void setFirstName(String firstName) {
         this.ffaRobot.mouseMove(191, 258);
         this.pressAndRelease();
         this.typeString(firstName);
 
     }
 
-    public void setLastName(String lastName) throws Exception {
+    public void setLastName(String lastName) {
         this.ffaRobot.mouseMove(320, 258);
         this.pressAndRelease();
         this.typeString(lastName);
     }
 
-    public void setGender(String gender)throws Exception {
+    public void setGender(String gender) {
         this.ffaRobot.mouseMove(175, 278);
         this.pressAndRelease();
         this.pressAndRelease();
@@ -115,7 +95,7 @@ public class FFARobot {
         this.typeString(gender);
     }
 
-    public void setSpecialInterestClasses(String amClass, String pmClass) throws Exception {
+    public void setSpecialInterestClasses(String amClass, String pmClass) {
         this.ffaRobot.mouseMove(173, 300);
         this.pressAndRelease();
         this.typeCharacter(this.determineClassLetter(amClass));
@@ -124,7 +104,7 @@ public class FFARobot {
         this.typeCharacter(this.determineClassLetter(pmClass));
     }
 
-    public void setGroupNum(String groupNum) throws Exception {
+    public void setGroupNum(String groupNum) {
         this.ffaRobot.mouseMove(173, 342);
         this.pressAndRelease();
         this.pressAndRelease();
@@ -151,7 +131,7 @@ public class FFARobot {
         - Community Service
         - Recreation
     */
-    public void setCommittee(String committee) throws Exception {
+    public void setCommittee(String committee) {
         this.ffaRobot.mouseMove(306, 238);
         this.pressAndRelease();
         this.pressAndRelease();
@@ -220,13 +200,13 @@ public class FFARobot {
         this.ffaRobot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
     }
 
-    private void typeString(String stringToPrint) throws Exception {
+    private void typeString(String stringToPrint) {
         for(int i = 0; i < stringToPrint.length(); i++) {
             this.typeCharacter((Character.toString(stringToPrint.charAt(i))));
         }
     }
 
-    private void typeCharacter(String currentChar) throws Exception {
+    private void typeCharacter(String currentChar) {
         String variableName;
         if(Character.isUpperCase(currentChar.charAt(0))) {
             this.ffaRobot.keyPress(KeyEvent.VK_SHIFT);
@@ -251,8 +231,13 @@ public class FFARobot {
         }
 
         Class clazz = KeyEvent.class;
-        Field field = clazz.getField(variableName);
-        int keyCode = field.getInt(null);
+        int keyCode = 0;
+        try {
+            Field field = clazz.getField(variableName);
+            keyCode = field.getInt(null);
+        } catch(Exception e) {
+            System.out.println("Failed Typing Character");
+        }
         this.ffaRobot.keyPress(keyCode);
         this.ffaRobot.keyRelease(keyCode);
         this.ffaRobot.keyRelease(KeyEvent.VK_SHIFT);

@@ -1,12 +1,11 @@
 package org.kyffa.general;
 
-import org.kyffa.general.FFARobot;
 import org.kyffa.gui.FFAMainPanel;
 import org.kyffa.models.Chapter;
 import org.kyffa.models.FFAExcelFile;
+import org.kyffa.models.Student;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
@@ -32,6 +31,26 @@ public class Main {
                                                 "Comm. Service Committee",
                                                 "Recreation Committee"
                                               };
+
+    public static final String[] specialInterestClasses = {
+                                                            "Ag Careers",
+                                                            "Conservation",
+                                                            "Alt. Energy/Fuels",
+                                                            "Going to College",
+                                                            "Parliamentary Pro.",
+                                                            "Ag Advocacy/PR",
+                                                            "SAE",
+                                                            "The Great Outdoors",
+                                                            "Auctioneering",
+                                                            "Communication Skills A",
+                                                            "Communication Skills B",
+                                                            "Reasons",
+                                                            "Archery (Beginner)",
+                                                            "Archery (Advanced)",
+                                                            "Canoeing",
+                                                            "Fishing",
+                                                            "Tractor Driving"
+                                                          };
 
     public static void main(String[] args) throws Exception {
         frame = new JFrame("KY FFA LTC FileMaker Pro Bot");
@@ -82,23 +101,36 @@ public class Main {
             readFile.setGroupNumber();
             readFile.addStudent();
         }
-
-        try {
-            startRobot(chapter);
-        } catch (AWTException e) {
-            return false;
-        }
+        startRobot(chapter);
         readFile.closeInputStream();
         return true;
     }
 
-    private static void startRobot(Chapter currentChapter) throws AWTException {
+    private static void startRobot(Chapter currentChapter) {
         FFARobot ffaRobot = new FFARobot(currentChapter);
-        try {
-            ffaRobot.start();
-        } catch (Exception e) {
-            System.err.println(e);
+
+        for(Student student : currentChapter.getStudents()) {
+            if(student.getFirstName() == null) {
+                break;
+            }
+
+            ffaRobot.newRecord();
+            ffaRobot.delayOneSec();
+            ffaRobot.setWeek();
+            ffaRobot.setChapter();
+            if(student.getIsCommittee()) {
+                ffaRobot.setCommittee(student.getOffice());
+            } else {
+                ffaRobot.setOffice(student.getOffice());
+            }
+            ffaRobot.setFirstName(student.getFirstName());
+            ffaRobot.setLastName(student.getLastName());
+            ffaRobot.setGender(student.getGender());
+            ffaRobot.setSpecialInterestClasses(student.getSpecialInterestAM(), student.getSpecialInterestPM());
+            ffaRobot.setGroupNum(Integer.toString(student.getGroupNum()));
+            ffaRobot.delayOneSec();
         }
+        frameVisible(true);
     }
 
     public static void frameVisible(boolean visible) {
