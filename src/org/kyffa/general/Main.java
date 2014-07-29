@@ -1,3 +1,10 @@
+package org.kyffa.general;
+
+import org.kyffa.general.FFARobot;
+import org.kyffa.gui.FFAMainPanel;
+import org.kyffa.models.Chapter;
+import org.kyffa.models.FFAExcelFile;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
@@ -33,14 +40,6 @@ public class Main {
         frame.setResizable(false);
         frame.pack();
         frame.setVisible(true);
-        /*
-        boolean success = run(new Chapter("Ballard Memorial", 5));
-        if(success) {
-            System.out.println("Successful Run");
-        } else {
-            System.out.println("Run did not finish");
-        }
-        */
     }
 
     /*
@@ -105,5 +104,4 @@ public class Main {
     public static void frameVisible(boolean visible) {
         frame.setVisible(visible);
     }
-
 }

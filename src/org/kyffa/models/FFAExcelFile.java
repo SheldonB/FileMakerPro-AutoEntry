@@ -1,7 +1,11 @@
+package org.kyffa.models;
+
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import org.kyffa.general.Main;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,6 +24,12 @@ public class FFAExcelFile {
     private Chapter currentChapter;
     private Student student;
 
+    /*
+    Basic Constructor that takes a File and a org.kyffa.models.Chapter object.
+    This constructor initializes all necessary variables.
+    Currently sheet is declared as in instance variable of this class. Eventually this will
+    be used to open different sheets and process data from more than one.
+    */
     public FFAExcelFile(File excelFile, Chapter currentChapter) throws IOException {
         this.file = new FileInputStream(excelFile);
         XSSFWorkbook workbook = new XSSFWorkbook(this.file);
@@ -37,6 +47,10 @@ public class FFAExcelFile {
         this.row = (XSSFRow)this.rows.next();
     }
 
+    /*
+    Check and see if the program is in bounds. This could need expanding
+    in the future if the excel form is expanded.
+    */
     public boolean isValidRow() {
         if(this.row.getRowNum() == 0 || this.row.getRowNum() == 1) {
             return false;
@@ -59,6 +73,14 @@ public class FFAExcelFile {
         this.cell = (XSSFCell)cells.next();
     }
 
+    /*
+    Splits the name by spaces and stores in an array. If there is a length of 3
+    then it is a 3 word name. if a length of two then it is a two word name.
+
+    There is probably a better way to approach this. With the current way the excel
+    document is set up, with only one field for first name and last name, this is
+    the best option at the time.
+    */
     public void setName() {
         String[] splitNames = cell.getStringCellValue().split(" ");
         if(splitNames.length == 3) {
@@ -74,6 +96,13 @@ public class FFAExcelFile {
         this.student.setGender(cell.getStringCellValue());
     }
 
+    /*
+    An array is indexed to see if the office being added is a committee.
+    The reason this happens is because the committee has a different field
+    inside of FileMaker but the field for committee and office are the same
+    in the excel document. Therefore some sort of flag needs to be thrown to
+    indicate a committee chair is being processed and not a normal officer.
+    */
     public void setOffice() {
         for(String comm : Main.committees) {
             if(cell.getStringCellValue().equals(comm)) {
@@ -91,6 +120,18 @@ public class FFAExcelFile {
         }
     }
 
+    /*
+    There are two special interest classes, AM and PM.
+    The AM is indicated on the excel form as a bold text area.
+    There are also two Communication classes. Communications B
+    is marked by an underline.
+
+    This helper method to setSpecialInterest checks to see if
+    the interest class is Communication skills and if underlined the
+    student is put into Communication Skills B, if not then they are
+    put into Communication Skills A. If not of these conditions are met,
+    then the other classes are added.
+    */
     private void setSpecialInterestAM() {
         if(this.cell.getStringCellValue().equals("Communication Skills")
                 && this.cell.getCellStyle().getFont().getUnderline() == 1) {
@@ -102,6 +143,18 @@ public class FFAExcelFile {
         }
     }
 
+    /*
+   There are two special interest classes, AM and PM.
+   The PM is indicated on the excel form as an italic text area.
+   There are also two Communication classes. Communications B
+   is marked by an underline.
+
+   This helper method to setSpecialInterest checks to see if
+   the interest class is Communication skills and if underlined the
+   student is put into Communication Skills B, if not then they are
+   put into Communication Skills A. If not of these conditions are met,
+   then the other classes are added.
+   */
     private void setSpecialInterestPM() {
         if(this.cell.getStringCellValue().equals("Communication Skills")
                 && this.cell.getCellStyle().getFont().getUnderline() == 1) {

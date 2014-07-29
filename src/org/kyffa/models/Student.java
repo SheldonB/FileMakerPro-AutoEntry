@@ -1,3 +1,5 @@
+package org.kyffa.models;
+
 /**
  * Class models a student at camp. Each student has a name
  * a gender, an office, and two special interest classes

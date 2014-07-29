@@ -1,12 +1,18 @@
+package org.kyffa.general;
+
+import org.kyffa.models.Chapter;
+
 import java.awt.*;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.lang.reflect.Field;
 
-//Implementation of the Robot Class to put records from
-//excel document into the FileMaker Pro software
-//Created: 6/24/14
-//Author: Sheldon Burks
+/*
+Implementation of the Robot Class to put records from
+excel document into the FileMaker Pro software
+Created: 6/24/14
+Author: Sheldon Burks
+*/
 
 public class FFARobot {
     private Chapter chapter;
@@ -18,7 +24,7 @@ public class FFARobot {
     }
 
     //This method starts the Robot process.
-    //There is a cycle throughout the ArrayList<Student>
+    //There is a cycle throughout the ArrayList<org.kyffa.models.Student>
     //that will actually put every member in the computer
     public void start() throws Exception {
        for(int i = 0; i < this.chapter.getSize(); i++){
@@ -128,7 +134,7 @@ public class FFARobot {
     /*
     Method sets the committee class. The method checks the String value of
     committee and compares it to the corresponding classes. There is an
-    array of String in the class Main that contains each committee.
+    array of String in the class org.kyffa.general.Main that contains each committee.
 
     Committee Class One:
         - Earnings, Savings, and Investments

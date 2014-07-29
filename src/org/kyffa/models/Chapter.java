@@ -1,3 +1,5 @@
+package org.kyffa.models;
+
 import java.util.ArrayList;
 
 /**
