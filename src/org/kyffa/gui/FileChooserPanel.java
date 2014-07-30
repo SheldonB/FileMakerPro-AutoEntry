@@ -14,6 +14,7 @@ public class FileChooserPanel extends JPanel {
     public FileChooserPanel() {
         this.setPreferredSize(new Dimension(400, 45));
         this.fileNameArea = new JTextArea("No File Selected");
+        this.fileNameArea.setColumns(10);
         this.fileNameArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         this.chooseFileButton = new JButton("Choose File");
         this.fileChooser = new JFileChooser();
