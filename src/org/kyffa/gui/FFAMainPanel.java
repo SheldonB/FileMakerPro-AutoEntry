@@ -47,7 +47,7 @@ public class FFAMainPanel extends JPanel {
                 JOptionPane.showMessageDialog(new JFrame("Form Not Filled Out Properly"), "Please fill in both the chapter and the week.");
             } else if(e.getSource() == startButton) {
                 Main.frameVisible(false);
-                if(Main.run(new Chapter(chapterNameArea.getText(), Integer.parseInt(weekNumberArea.getText())),
+                if(Main.run(new Chapter(chapterNameArea.getText().trim(), Integer.parseInt(weekNumberArea.getText().trim())),
                         chooserPanel.getExcelDoc())) {
                     System.out.println("Run Finished");
                     Main.frameVisible(true);

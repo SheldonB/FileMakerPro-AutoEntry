@@ -53,12 +53,17 @@ public class Main {
                                                           };
 
     public static void main(String[] args) throws Exception {
+
         frame = new JFrame("KY FFA LTC FileMaker Pro Bot");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.getContentPane().add(new FFAMainPanel());
         frame.setResizable(false);
         frame.pack();
         frame.setVisible(true);
+
+
+        //test cases
+        //run(new Chapter("Ballard Memorial H.S.", 5), new File("C:\\Users\\sheldon.burke@education.ky.gov\\Documents\\Registration Copy\\Week 5\\Ballard Memorial.xlsx"));
     }
 
     /*
@@ -101,6 +106,12 @@ public class Main {
             readFile.setGroupNumber();
             readFile.addStudent();
         }
+        //chapter.printChapter();
+        readFile.addAdvisors();
+        readFile.addMaleChaperones();
+        readFile.addFemaleChaperones();
+        readFile.addMaleChildren();
+        readFile.addFemaleChildren();
         startRobot(chapter);
         readFile.closeInputStream();
         return true;
@@ -108,10 +119,9 @@ public class Main {
 
     private static void startRobot(Chapter currentChapter) {
         FFARobot ffaRobot = new FFARobot(currentChapter);
-
         for(Student student : currentChapter.getStudents()) {
             if(student.getFirstName() == null) {
-                break;
+                continue;
             }
 
             ffaRobot.newRecord();
@@ -125,8 +135,11 @@ public class Main {
             }
             ffaRobot.setFirstName(student.getFirstName());
             ffaRobot.setLastName(student.getLastName());
-            ffaRobot.setGender(student.getGender());
-            ffaRobot.setSpecialInterestClasses(student.getSpecialInterestAM(), student.getSpecialInterestPM());
+            if(!student.getOffice().equals("Advisor") || !student.getOffice().equals("Chaperone")
+                    || !student.getOffice().equals("Child")) {
+                ffaRobot.setGender(student.getGender());
+                ffaRobot.setSpecialInterestClasses(student.getSpecialInterestAM(), student.getSpecialInterestPM());
+            }
             ffaRobot.setGroupNum(Integer.toString(student.getGroupNum()));
             ffaRobot.delayOneSec();
         }

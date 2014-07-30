@@ -86,7 +86,9 @@ public class FFARobot {
         this.ffaRobot.mouseMove(175, 278);
         this.pressAndRelease();
         this.pressAndRelease();
-        if(gender.equalsIgnoreCase("M")) {
+        if(gender == null) {
+            return;
+        } else if(gender.equalsIgnoreCase("M")) {
             gender = "Male";
         }
         else {
@@ -96,6 +98,9 @@ public class FFARobot {
     }
 
     public void setSpecialInterestClasses(String amClass, String pmClass) {
+        if(amClass == null || pmClass == null) {
+            return;
+        }
         this.ffaRobot.mouseMove(173, 300);
         this.pressAndRelease();
         this.typeCharacter(this.determineClassLetter(amClass));

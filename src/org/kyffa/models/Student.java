@@ -29,6 +29,21 @@ public class Student {
     }
 
 
+    public Student(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.office = "Advisor";
+        this.groupNum = 1;
+    }
+
+    public Student(String firstName, String lastName, String office, String gender) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.office = office;
+        this.gender = gender;
+        this.groupNum = 1;
+    }
+
     public Student() {
         this.firstName = null;
         this.lastName = null;

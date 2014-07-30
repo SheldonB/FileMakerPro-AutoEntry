@@ -1,6 +1,7 @@
 package org.kyffa.models;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * This class simply models a chapter.
@@ -50,4 +51,5 @@ public class Chapter {
     public ArrayList<Student> getStudents() {
         return this.students;
     }
+
 }

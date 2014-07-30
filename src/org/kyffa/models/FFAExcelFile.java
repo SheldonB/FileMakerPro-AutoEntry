@@ -1,5 +1,6 @@
 package org.kyffa.models;
 
+import org.apache.poi.hssf.util.CellReference;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -120,6 +121,56 @@ public class FFAExcelFile {
         }
     }
 
+    public void addAdvisors() {
+        this.sheet = this.sheet.getWorkbook().getSheetAt(0);
+        for(int i = 8; i <= 11; i++) {
+            CellReference cellReference = new CellReference("D" + i);
+            this.row = sheet.getRow(cellReference.getRow());
+            this.cell = row.getCell(cellReference.getCol());
+            String[] splitNames = this.cell.getStringCellValue().split(" ");
+            if(splitNames.length == 3) {
+                this.currentChapter.addStudent(new Student(splitNames[0] + splitNames[1], splitNames[2]));
+            } else if(splitNames.length == 2) {
+                this.currentChapter.addStudent(new Student(splitNames[0], splitNames[1]));
+            }
+        }
+    }
+
+    public void addMaleChaperones() {
+        CellReference cellReference = new CellReference("E15");
+        this.row = sheet.getRow(cellReference.getRow());
+        this.cell = row.getCell(cellReference.getCol());
+        for(int i = 0; i < (int)this.cell.getNumericCellValue(); i++) {
+            this.currentChapter.addStudent(new Student("Male", "Chaperone", "Chaperone", "M"));
+        }
+    }
+
+    public void addFemaleChaperones() {
+        CellReference cellReference = new CellReference("E16");
+        this.row = sheet.getRow(cellReference.getRow());
+        this.cell = row.getCell(cellReference.getCol());
+        for(int i = 0; i < (int)this.cell.getNumericCellValue(); i++) {
+            this.currentChapter.addStudent(new Student("Female", "Chaperone", "Chaperone", "F"));
+        }
+    }
+
+    public void addMaleChildren() {
+        CellReference cellReference = new CellReference("E17");
+        this.row = sheet.getRow(cellReference.getRow());
+        this.cell = row.getCell(cellReference.getCol());
+        for(int i = 0; i < (int)this.cell.getNumericCellValue(); i++) {
+            this.currentChapter.addStudent(new Student("Male", "Child", "Child", "M"));
+        }
+    }
+
+    public void addFemaleChildren() {
+        CellReference cellReference = new CellReference("E18");
+        this.row = sheet.getRow(cellReference.getRow());
+        this.cell = row.getCell(cellReference.getCol());
+        for(int i = 0; i < (int)this.cell.getNumericCellValue(); i++) {
+            this.currentChapter.addStudent(new Student("Female", "Child", "Child", "F"));
+        }
+    }
     /*
     There are two special interest classes, AM and PM.
     The AM is indicated on the excel form as a bold text area.
