@@ -9,21 +9,23 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class FFAMainPanel extends JPanel {
-    private JTextArea chapterNameArea;
-    private JTextArea weekNumberArea;
+    private JTextField chapterNameArea;
+    private JTextField weekNumberArea;
     private JButton startButton;
     private FileChooserPanel chooserPanel;
+    private HelpPanel helpPanel;
 
     public FFAMainPanel() {
-        this.setPreferredSize(new Dimension(400, 110));
-        this.chapterNameArea = new JTextArea(1, 15);
-        this.chapterNameArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        this.chapterNameArea.setTabSize(0);
-        this.weekNumberArea = new JTextArea(1,1);
-        this.weekNumberArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        this.weekNumberArea.setTabSize(0);
+        this.setPreferredSize(new Dimension(400, 150));
+        this.chapterNameArea = new JTextField(15);
+        //this.chapterNameArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        //this.chapterNameArea.setTabSize(0);
+        this.weekNumberArea = new JTextField(1);
+        //this.weekNumberArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        //this.weekNumberArea.setTabSize(0);
         this.startButton = new JButton("Start");
         this.chooserPanel = new FileChooserPanel();
+        this.helpPanel = new HelpPanel();
 
         this.add(new JLabel("Chapter Name: "));
         this.add(this.chapterNameArea);
@@ -31,6 +33,7 @@ public class FFAMainPanel extends JPanel {
         this.add(this.weekNumberArea);
         this.add(this.chooserPanel);
         this.add(this.startButton);
+        this.add(this.helpPanel);
 
         this.chapterNameArea.addKeyListener(new KeyAdapter() {
             @Override
@@ -43,8 +46,8 @@ public class FFAMainPanel extends JPanel {
 
         this.startButton.addActionListener(e -> {
             if(e.getSource() == startButton && (chapterNameArea.getText().replaceAll("\\s+", "").equals("")
-                    || weekNumberArea.getText().replaceAll("\\s+","").equals(""))) {
-                JOptionPane.showMessageDialog(new JFrame("Form Not Filled Out Properly"), "Please fill in both the chapter and the week.");
+                    || weekNumberArea.getText().replaceAll("\\s+","").equals("") || !chooserPanel.getHasSelectedFile())) {
+                JOptionPane.showMessageDialog(new JFrame("Form Not Filled Out Properly"), "Please fill in both the chapter, week, and select a file.");
             } else if(e.getSource() == startButton) {
                 Main.frameVisible(false);
                 if(Main.run(new Chapter(chapterNameArea.getText().trim(), Integer.parseInt(weekNumberArea.getText().trim())),

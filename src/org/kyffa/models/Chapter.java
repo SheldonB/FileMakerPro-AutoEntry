@@ -1,7 +1,6 @@
 package org.kyffa.models;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * This class simply models a chapter.

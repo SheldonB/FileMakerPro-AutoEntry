@@ -16,6 +16,8 @@
     <orderEntry type="library" name="xmlbeans-2.3.0" level="project" />
     <orderEntry type="library" name="dom4j-1.6.1" level="project" />
     <orderEntry type="library" name="stax-api-1.0.1" level="project" />
+    <orderEntry type="library" name="javax.mail" level="project" />
+    <orderEntry type="library" name="smtp-1.5.2" level="project" />
   </component>
 </module>
 

@@ -57,6 +57,9 @@ public class FFARobot {
     }
 
     public void setOffice(String office) {
+        if(office == null) {
+            return;
+        }
         this.ffaRobot.mouseMove(293, 196);
         this.pressAndRelease();
         this.pressAndRelease();

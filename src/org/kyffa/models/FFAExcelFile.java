@@ -171,6 +171,7 @@ public class FFAExcelFile {
             this.currentChapter.addStudent(new Student("Female", "Child", "Child", "F"));
         }
     }
+
     /*
     There are two special interest classes, AM and PM.
     The AM is indicated on the excel form as a bold text area.
