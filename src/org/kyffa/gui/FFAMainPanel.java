@@ -13,7 +13,6 @@ public class FFAMainPanel extends JPanel {
     private JTextField weekNumberArea;
     private JButton startButton;
     private FileChooserPanel chooserPanel;
-    private HelpPanel helpPanel;
 
     public FFAMainPanel() {
         this.setPreferredSize(new Dimension(400, 150));
@@ -25,7 +24,7 @@ public class FFAMainPanel extends JPanel {
         //this.weekNumberArea.setTabSize(0);
         this.startButton = new JButton("Start");
         this.chooserPanel = new FileChooserPanel();
-        this.helpPanel = new HelpPanel();
+        HelpPanel helpPanel = new HelpPanel();
 
         this.add(new JLabel("Chapter Name: "));
         this.add(this.chapterNameArea);
@@ -33,7 +32,7 @@ public class FFAMainPanel extends JPanel {
         this.add(this.weekNumberArea);
         this.add(this.chooserPanel);
         this.add(this.startButton);
-        this.add(this.helpPanel);
+        this.add(helpPanel);
 
         this.chapterNameArea.addKeyListener(new KeyAdapter() {
             @Override
