@@ -32,13 +32,13 @@ public class SendEmail {
             System.out.println("Creating message");
             MimeMessage emailMessage = new MimeMessage(session);
             emailMessage.setFrom(new InternetAddress(this.email));
-            emailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress("sheldon.burks@gmail.com"));
+            emailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(""));
             emailMessage.setSubject("New Bug Report from " + this.name);
             emailMessage.setText(this.message);
 
             Transport transport = session.getTransport("smtp");
             System.out.println("Connecting....");
-            transport.connect("smtp.office365.com", "sheldon.burks", "s316245b?");
+            transport.connect("smtp.office365.com", "", "");
             System.out.println("Trying to send...");
             transport.sendMessage(emailMessage, emailMessage.getAllRecipients());
             transport.close();
