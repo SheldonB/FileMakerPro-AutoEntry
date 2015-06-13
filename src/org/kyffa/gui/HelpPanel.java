@@ -21,9 +21,13 @@ public class HelpPanel extends JPanel {
                                                         " sure all special interest forms have been filled\n" +
                                                         " in the excel document correctly. The AM Special interest\n" +
                                                         " should be in bold and the PM special interest class\n" +
-                                                        " should be in italics. Type in the name of the chapter\n" +
-                                                        " and the week they are attending. Then go find  the excel \n" +
-                                                        " document with their information. Everything will be\n" +
+                                                        " should be in italics. To compensate for having two \n" +
+                                                        " communication classes, when putting a student in communication\n" +
+                                                        " skills B underline that cell. This allows the program to know\n" +
+                                                        " that this is different from communication skills A.\n" +
+                                                        " Type in the name of the chapter\n" +
+                                                        " and the week they are attending. Then go find the excel \n" +
+                                                        " document with their information." + " Everything will be\n" +
                                                         " added into the system automatically. \n\n" +
                                                         " For questions and Bug Reports please use the bug report\n" +
                                                         " button which will be sent to Sheldon Burks.");

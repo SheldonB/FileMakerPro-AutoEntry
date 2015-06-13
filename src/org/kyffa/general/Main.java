@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 
+
 /*
 The following is an implementation of a bot, to ease the putting of
 data in to the program FileMaker Pro.
@@ -20,16 +21,9 @@ public class Main {
     private static JFrame frame;
 
     public static final String[] committees = {
-                                                "Leadership Committee",
-                                                "SAE Committee",
-                                                "Public Relations Committee",
-                                                "Alumni Relations Committee",
-                                                "Conduct/Meetings Committee",
-                                                "Earnings/Savings Committee",
-                                                "Scholarship Committee",
-                                                "Cooperation Committee",
-                                                "Comm. Service Committee",
-                                                "Recreation Committee"
+                                                "Chapter Dev.",
+                                                "Community Dev.",
+                                                "Student Dev."
                                               };
 
     public static final String[] specialInterestClasses = {
@@ -61,7 +55,10 @@ public class Main {
         frame.pack();
         frame.setVisible(true);
 
-
+        //FFARobot ffaRobot = new FFARobot(new Chapter("test", 1));
+        //while(true) {
+        //    ffaRobot.getXYCord();
+        //}
         //test cases
         //run(new Chapter("Ballard Memorial H.S.", 5), new File("C:\\Users\\sheldon.burke@education.ky.gov\\Documents\\Registration Copy\\Week 5\\Ballard Memorial.xlsx"));
     }
@@ -70,6 +67,7 @@ public class Main {
     Current refactor of the run loop. Adding error handling and better OOP support
     */
     public static boolean run(Chapter chapter, File excelDoc) {
+
         FFAExcelFile readFile;
         try {
             readFile = new FFAExcelFile(excelDoc, chapter);
@@ -112,13 +110,17 @@ public class Main {
         readFile.addFemaleChaperones();
         readFile.addMaleChildren();
         readFile.addFemaleChildren();
+
         startRobot(chapter);
         readFile.closeInputStream();
+
+
         return true;
     }
 
     private static void startRobot(Chapter currentChapter) {
         FFARobot ffaRobot = new FFARobot(currentChapter);
+        int aOrBCounter = 0;
         for(Student student : currentChapter.getStudents()) {
             if(student.getFirstName() == null) {
                 continue;
@@ -129,7 +131,8 @@ public class Main {
             ffaRobot.setWeek();
             ffaRobot.setChapter();
             if(student.getIsCommittee()) {
-                ffaRobot.setCommittee(student.getOffice());
+                ffaRobot.setCommittee(student.getOffice(), aOrBCounter);
+                aOrBCounter++;
             } else {
                 ffaRobot.setOffice(student.getOffice());
             }

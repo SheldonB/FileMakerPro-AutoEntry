@@ -35,7 +35,7 @@ public class FFARobot {
     This method clicks on the New Record Button in FileMaker Pro.
     */
     public void newRecord() {
-        this.ffaRobot.mouseMove(570, 101);
+        this.ffaRobot.mouseMove(571, 73);
         this.ffaRobot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
         this.ffaRobot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
     }
@@ -45,13 +45,13 @@ public class FFARobot {
     week within FileMaker Pro.
     */
     public void setWeek() {
-        this.ffaRobot.mouseMove(176, 153);
+        this.ffaRobot.mouseMove(175, 127);
         this.pressAndRelease();
         this.typeCharacter(Integer.toString(chapter.getWeek()));
     }
 
     public void setChapter() {
-        this.ffaRobot.mouseMove(308, 176);
+        this.ffaRobot.mouseMove(180, 148);
         this.pressAndRelease();
         this.typeString(this.chapter.getChapterName());
     }
@@ -60,7 +60,7 @@ public class FFARobot {
         if(office == null) {
             return;
         }
-        this.ffaRobot.mouseMove(293, 196);
+        this.ffaRobot.mouseMove(180, 169);
         this.pressAndRelease();
         this.pressAndRelease();
         if(office.equals("Vice-Pres")) {
@@ -73,20 +73,20 @@ public class FFARobot {
     }
 
     public void setFirstName(String firstName) {
-        this.ffaRobot.mouseMove(191, 258);
+        this.ffaRobot.mouseMove(212, 228);
         this.pressAndRelease();
         this.typeString(firstName);
 
     }
 
     public void setLastName(String lastName) {
-        this.ffaRobot.mouseMove(320, 258);
+        this.ffaRobot.mouseMove(299, 229);
         this.pressAndRelease();
         this.typeString(lastName);
     }
 
     public void setGender(String gender) {
-        this.ffaRobot.mouseMove(175, 278);
+        this.ffaRobot.mouseMove(173, 251);
         this.pressAndRelease();
         this.pressAndRelease();
         if(gender == null) {
@@ -104,16 +104,16 @@ public class FFARobot {
         if(amClass == null || pmClass == null) {
             return;
         }
-        this.ffaRobot.mouseMove(173, 300);
+        this.ffaRobot.mouseMove(172, 271);
         this.pressAndRelease();
         this.typeCharacter(this.determineClassLetter(amClass));
-        this.ffaRobot.mouseMove(172, 321);
+        this.ffaRobot.mouseMove(172, 292);
         this.pressAndRelease();
         this.typeCharacter(this.determineClassLetter(pmClass));
     }
 
     public void setGroupNum(String groupNum) {
-        this.ffaRobot.mouseMove(173, 342);
+        this.ffaRobot.mouseMove(180, 315);
         this.pressAndRelease();
         this.pressAndRelease();
         this.typeCharacter(groupNum);
@@ -123,38 +123,25 @@ public class FFARobot {
     Method sets the committee class. The method checks the String value of
     committee and compares it to the corresponding classes. There is an
     array of String in the class org.kyffa.general.Main that contains each committee.
-
-    Committee Class One:
-        - Earnings, Savings, and Investments
-        - Scholarship
-    Committee Class Two:
-        - Public Relations
-        - Investments
-        - Scholarship
-    Committee Class Three:
-        - SAE
-        - Leadership
-    Committee Class Four:
-        - Coop
-        - Community Service
-        - Recreation
     */
-    public void setCommittee(String committee) {
-        this.ffaRobot.mouseMove(306, 238);
+    public void setCommittee(String committee, int counter) {
+        this.ffaRobot.mouseMove(190, 208);
         this.pressAndRelease();
         this.pressAndRelease();
-        if(committee.equals(Main.committees[5]) || committee.equals(Main.committees[6])) {
-            this.typeString("Committeemen Class 1");
+        if (committee.equals(Main.committees[0]) && counter % 2 == 0) {
+            this.typeString("Chapter Development A");
+        } else if(committee.equals(Main.committees[0]) && counter % 2 == 1) {
+            this.typeString("Chapter Development B");
+        } else if(committee.equals(Main.committees[1]) && counter % 2 == 0) {
+            this.typeString("Community Development A");
+        } else if(committee.equals(Main.committees[1]) && counter % 2 == 1) {
+            this.typeString("Community Development B");
+        } else if(committee.equals(Main.committees[2]) && counter % 2 == 0) {
+            this.typeString("Student Development A");
+        } else if(committee.equals(Main.committees[2]) && counter % 2 == 1) {
+            this.typeString("Student Development B");
         }
-        else if(committee.equals(Main.committees[2]) || committee.equals(Main.committees[3]) || committee.equals(Main.committees[4])) {
-            this.typeString("Committeemen Class 2");
-        }
-        else if(committee.equals(Main.committees[0]) || committee.equals(Main.committees[1])) {
-            this.typeString("Committeemen Class 3");
-        }
-        else if(committee.equals(Main.committees[7]) || committee.equals(Main.committees[8]) || committee.equals(Main.committees[9])) {
-            this.typeString("Committeemen Class 4");
-        }
+
     }
 
     /*
@@ -185,19 +172,19 @@ public class FFARobot {
                 return "I";
             case "Communication Skills A":
                 return "J";
-            case "Reasons":
-                return "K";
-            case "Archery (Beginner)":
-                return "L";
-            case "Archery (Advanced)":
-                return "M";
-            case "Canoeing":
-                return "N";
-            case "Fishing":
-                return "O";
-            case "Tractor Driving":
-                return "P";
             case "Communication Skills B":
+                return "K";
+            case "Livestock Judging":
+                return "L";
+            case "Archery (Beginner)":
+                return "M";
+            case "Archery (Advanced)":
+                return "N";
+            case "Canoeing":
+                return "O";
+            case "High ROPES (Sr Only)":
+                return "P";
+            case "Tractor Driving":
                 return "Q";
         }
         return "";

@@ -137,7 +137,7 @@ public class FFAExcelFile {
     }
 
     public void addMaleChaperones() {
-        CellReference cellReference = new CellReference("E15");
+        CellReference cellReference = new CellReference("D15");
         this.row = sheet.getRow(cellReference.getRow());
         this.cell = row.getCell(cellReference.getCol());
         for(int i = 0; i < (int)this.cell.getNumericCellValue(); i++) {
@@ -146,7 +146,7 @@ public class FFAExcelFile {
     }
 
     public void addFemaleChaperones() {
-        CellReference cellReference = new CellReference("E16");
+        CellReference cellReference = new CellReference("E15");
         this.row = sheet.getRow(cellReference.getRow());
         this.cell = row.getCell(cellReference.getCol());
         for(int i = 0; i < (int)this.cell.getNumericCellValue(); i++) {
@@ -155,7 +155,7 @@ public class FFAExcelFile {
     }
 
     public void addMaleChildren() {
-        CellReference cellReference = new CellReference("E17");
+        CellReference cellReference = new CellReference("D17");
         this.row = sheet.getRow(cellReference.getRow());
         this.cell = row.getCell(cellReference.getCol());
         for(int i = 0; i < (int)this.cell.getNumericCellValue(); i++) {
@@ -164,7 +164,7 @@ public class FFAExcelFile {
     }
 
     public void addFemaleChildren() {
-        CellReference cellReference = new CellReference("E18");
+        CellReference cellReference = new CellReference("D16");
         this.row = sheet.getRow(cellReference.getRow());
         this.cell = row.getCell(cellReference.getCol());
         for(int i = 0; i < (int)this.cell.getNumericCellValue(); i++) {
