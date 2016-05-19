@@ -180,12 +180,14 @@ public class FFARobot {
                 return "M";
             case "Archery (Advanced)":
                 return "N";
-            case "Canoeing":
+            case "Water Saftey":
                 return "O";
             case "High ROPES (Sr Only)":
                 return "P";
             case "Tractor Driving":
                 return "Q";
+            case "Ag Issues":
+                return "R";
         }
         return "";
     }
