@@ -180,7 +180,7 @@ public class FFARobot {
                 return "M";
             case "Archery (Advanced)":
                 return "N";
-            case "Water Saftey":
+            case "Water Safety":
                 return "O";
             case "High ROPES (Sr Only)":
                 return "P";
